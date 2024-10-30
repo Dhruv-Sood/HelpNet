@@ -47,8 +47,8 @@ export function HomePage() {
           </div>
           
           <div className='order-1 lg:order-2 h-full'>
-            <Earth />
-            {/* Earth Model */}
+            {/* <Earth /> */}
+            Earth Model
             {/* <Help /> */}
           </div>
         </div>
