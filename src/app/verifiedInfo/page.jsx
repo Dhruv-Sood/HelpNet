@@ -23,25 +23,34 @@ const Page = () => {
   }, [])
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Verified Information</h1>
-      <div className="grid gap-6">
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8 text-white text-center">Verified Disaster Relief Information</h1>
+      <div className="max-w-4xl mx-auto space-y-6">
         {verifiedInfo.map((info, index) => (
-          <div key={index} className="border p-4 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-2">{info.title}</h2>
-            <p className="mb-2">{info.description}</p>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="font-medium">Location:</span> {info.location}
+          <div key={index} className="bg-zinc-800 border border-zinc-700 p-6 rounded-lg text-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-semibold">{info.title}</h2>
+              <span className="bg-green-600/20 text-green-400 px-3 py-1 rounded-full text-sm">
+                Verified ✓
+              </span>
+            </div>
+            <p className="text-gray-300 text-lg mb-6">{info.description}</p>
+            <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-400">
+              <div className="flex items-center space-x-2">
+                <span className="text-white font-medium">📍 Location:</span>
+                <span>{info.location}</span>
               </div>
-              <div>
-                <span className="font-medium">Category:</span> {info.category}
+              <div className="flex items-center space-x-2">
+                <span className="text-white font-medium">🏷️ Category:</span>
+                <span>{info.category}</span>
               </div>
-              <div>
-                <span className="font-medium">Sender:</span> {info.sender}
+              <div className="flex items-center space-x-2">
+                <span className="text-white font-medium">👤 Sender:</span>
+                <span className="font-mono">{info.sender}</span>
               </div>
-              <div>
-                <span className="font-medium">Verified At:</span> {new Date(info.verifiedAt).toLocaleString()}
+              <div className="flex items-center space-x-2">
+                <span className="text-white font-medium">✅ Verified:</span>
+                <span>{new Date(info.verifiedAt).toLocaleString()}</span>
               </div>
             </div>
           </div>

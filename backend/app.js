@@ -4,12 +4,14 @@ const mongoose = require('mongoose')
 const app = express()
 const lighthouse = require('@lighthouse-web3/sdk')
 require('dotenv').config()
-
+const { Submission, VerifiedInfo } = require("./modals");
+const {
+  CLEANUP_INTERVAL,
+  SUBMISSION_EXPIRY,
+} = require('./config')
 
 const {
-
   processExpiredSubmission,
-
   getCombinedVerifiedInfo,
 } = require("./utils");
 
@@ -32,49 +34,6 @@ const connectDB = async () => {
 }
 
 connectDB()
-
-// Define submission schema
-const submissionSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    location: String,
-    category: String,
-    sender: String,
-    votes: {
-        yes: { type: Number, default: 0 },
-        no: { type: Number, default: 0 }
-    },
-    voters: [{
-        address: String,
-        vote: String
-    }],
-    createdAt: { type: Date, default: Date.now },
-    verified: { type: Boolean, default: false }
-})
-
-const Submission = mongoose.model('Submission', submissionSchema)
-
-// Define verified info schema
-const verifiedInfoSchema = new mongoose.Schema({
-    submissionId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Submission'
-    },
-    lighthouseHash: String,
-    verifiedAt: { type: Date, default: Date.now }
-})
-
-const VerifiedInfo = mongoose.model('VerifiedInfo', verifiedInfoSchema)
-
-// Configuration for cleanup interval
-const CLEANUP_INTERVAL = 10000 
-const SUBMISSION_EXPIRY = 1 * 60 * 1000 
-const VERIFICATION_THRESHOLD = 80 
-
-
-
-
-
 
 
 // Cleanup expired unverified submissions every minute
@@ -140,6 +99,14 @@ app.post("/verify", async (req, res) => {
         const submission = await Submission.findById(submissionId)
         if (!submission) {
             return res.status(404).json({ error: "Submission not found" })
+        }
+
+        // Check if user has already voted
+        if (submission.voters.some(v => v.address === verifier)) {
+            return res.json({
+                status: "done",
+                message: "You have already voted on this submission"
+            })
         }
 
         const updatedSubmission = await processVote(submission, vote, verifier)

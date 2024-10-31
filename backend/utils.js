@@ -1,5 +1,7 @@
 const lighthouse = require("@lighthouse-web3/sdk");
 const mongoose = require("mongoose");
+const { VERIFICATION_THRESHOLD } = require("./config");
+const { Submission, VerifiedInfo } = require("./modals");
 
 // Function to upload data to Lighthouse
 const uploadToLighthouse = async (submission) => {
