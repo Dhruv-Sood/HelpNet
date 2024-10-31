@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { BoxReveal } from './ui/box-reveal';
 import Earth from './3d_models/earth';
 import Help from './3d_models/help';
 import { MagicCard } from './ui/magic-card';
@@ -11,47 +10,39 @@ export function HomePage() {
       <div className='container mx-auto px-4 min-h-screen flex items-center'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
           <div className='order-2 lg:order-1'>
-            <BoxReveal boxColor={"#5046e6"} duration={0.5}>
-              <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text leading-tight">
-                Welcome to HelpNet (Disaster Relief)
-              </h1>
-            </BoxReveal>
-            <BoxReveal boxColor={"#5046e6"} duration={0.5}>
-              <p className="text-2xl mb-8 text-gray-200">
-                Help communities by sharing and verifying disaster relief information.
-              </p>
-            </BoxReveal>
-            <BoxReveal boxColor={"#5046e6"} duration={0.5}>
-              <p className="text-lg text-gray-300 leading-relaxed mb-8 backdrop-blur-sm bg-zinc-900/30 p-6 rounded-xl border border-zinc-800">
-                We focus on providing accurate and up-to-date information about disaster relief efforts.
-                Our platform allows you to upload and verify information about disaster relief efforts,
-                ensuring that you are providing the most accurate and helpful information to those in need.
-              </p>
-            </BoxReveal>
-            <BoxReveal boxColor={"#5046e6"} duration={0.5}>
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Link
-                    href="/upload"
-                    className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-blue-900 transition-all duration-300 text-center shadow-lg hover:shadow-blue-500/25 font-medium"
-                  >
-                    Upload Information
-                  </Link>
-                  <Link
-                    href="/verify" 
-                    className="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-8 py-4 rounded-xl hover:from-purple-700 hover:to-purple-900 transition-all duration-300 text-center shadow-lg hover:shadow-purple-500/25 font-medium"
-                  >
-                    Verify Information
-                  </Link>
-                </div>
+            <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text leading-tight">
+              Welcome to HelpNet (Disaster Relief)
+            </h1>
+            <p className="text-2xl mb-8 text-gray-200">
+              Help communities by sharing and verifying disaster relief information.
+            </p>
+            <p className="text-lg text-gray-300 leading-relaxed mb-8 backdrop-blur-sm bg-zinc-900/30 p-6 rounded-xl border border-zinc-800">
+              We focus on providing accurate and up-to-date information about disaster relief efforts.
+              Our platform allows you to upload and verify information about disaster relief efforts,
+              ensuring that you are providing the most accurate and helpful information to those in need.
+            </p>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row w-full gap-4">
                 <Link
-                  href="/verifiedInfo"
-                  className="bg-gradient-to-r from-emerald-600 to-emerald-800 text-white px-8 py-4 rounded-xl hover:from-emerald-700 hover:to-emerald-900 transition-all duration-300 text-center shadow-lg hover:shadow-emerald-500/25 font-medium"
+                  href="/upload"
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-800 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-blue-900 transition-all duration-300 text-center shadow-lg hover:shadow-blue-500/25 font-medium"
                 >
-                  View Verified Info
+                  Upload Information
+                </Link>
+                <Link
+                  href="/verify" 
+                  className="flex-1 bg-gradient-to-r from-purple-600 to-purple-800 text-white px-8 py-4 rounded-xl hover:from-purple-700 hover:to-purple-900 transition-all duration-300 text-center shadow-lg hover:shadow-purple-500/25 font-medium"
+                >
+                  Verify Information
                 </Link>
               </div>
-            </BoxReveal>
+              <Link
+                href="/verifiedInfo"
+                className="bg-gradient-to-r from-emerald-600 to-emerald-800 text-white px-8 py-4 rounded-xl hover:from-emerald-700 hover:to-emerald-900 transition-all duration-300 text-center shadow-lg hover:shadow-emerald-500/25 font-medium"
+              >
+                View Verified Info
+              </Link>
+            </div>
           </div>
           
           <div className='order-1 lg:order-2 h-full flex justify-center items-center'>
@@ -121,6 +112,36 @@ export function HomePage() {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="mt-20 py-12 border-t border-zinc-800 bg-zinc-900/30 backdrop-blur-sm">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-8 md:mb-0">
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">HelpNet (Disaster Relief)</h3>
+              <p className="text-gray-400 mt-2">Empowering communities through verified disaster relief information</p>
+            </div>
+            <div className="flex flex-col md:flex-row gap-8 text-gray-400">
+              <div>
+                <h4 className="font-semibold text-white mb-3">Contact</h4>
+                <p>Created by: <a href="https://x.com/dhruv_sood_" target="__blank"  className="text-blue-500 hover:text-blue-600 transition-colors">Dhruv Sood</a></p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-white mb-3">Follow Us</h4>
+                <div className="flex gap-4">
+                  <a href="https://twitter.com/dhruv_sood_" target="__blank" className="hover:text-white transition-colors">Twitter</a>
+                  <a href="https://github.com/Dhruv-Sood" target="__blank" className="hover:text-white transition-colors">GitHub</a>
+                  <a href="https://www.linkedin.com/in/sooddhruv/" target="__blank" className="hover:text-white transition-colors">LinkedIn</a>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-12 text-center text-gray-500 text-sm">
+            © 2024 HelpNet. All rights reserved.
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
