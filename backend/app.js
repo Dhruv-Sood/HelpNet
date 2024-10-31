@@ -9,7 +9,7 @@ app.use(cors())
 app.use(express.json())
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/disaster-relief', {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -25,18 +25,38 @@ const submissionSchema = new mongoose.Schema({
         yes: { type: Number, default: 0 },
         no: { type: Number, default: 0 }
     },
-    voters: [String],
+    voters: [{
+        address: String,
+        vote: String
+    }],
     createdAt: { type: Date, default: Date.now },
     verified: { type: Boolean, default: false }
 })
 
 const Submission = mongoose.model('Submission', submissionSchema)
 
+// Define verified info schema
+const verifiedInfoSchema = new mongoose.Schema({
+    submissionId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Submission'
+    },
+    lighthouseHash: String,
+    verifiedAt: { type: Date, default: Date.now }
+})
+
+const VerifiedInfo = mongoose.model('VerifiedInfo', verifiedInfoSchema)
+
+// Configuration for cleanup interval
+const CLEANUP_INTERVAL = 10000 
+const SUBMISSION_EXPIRY = 1 * 60 * 1000 
+const VERIFICATION_THRESHOLD = 80 
+
 // Cleanup expired unverified submissions every minute
 setInterval(async () => {
-    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000)
+    const expiryTime = new Date(Date.now() - SUBMISSION_EXPIRY)
     const expiredSubmissions = await Submission.find({
-        createdAt: { $lt: thirtyMinutesAgo },
+        createdAt: { $lt: expiryTime },
         verified: false
     })
 
@@ -45,8 +65,8 @@ setInterval(async () => {
         if (totalVotes > 0) {
             const yesPercentage = (submission.votes.yes / totalVotes) * 100
             
-            if (yesPercentage >= 80) {
-                // Upload to Lighthouse if verified
+            if (yesPercentage >= VERIFICATION_THRESHOLD) {
+                // Uploading to Lighthouse 
                 const jsonData = JSON.stringify({
                     title: submission.title,
                     description: submission.description,
@@ -63,6 +83,13 @@ setInterval(async () => {
                     
                     submission.verified = true
                     await submission.save()
+
+                    // Store verified info with lighthouse hash
+                    const verifiedInfo = new VerifiedInfo({
+                        submissionId: submission._id,
+                        lighthouseHash: uploadResponse.data.Hash
+                    })
+                    await verifiedInfo.save()
                     
                     // TODO: Future implementation
                     // - Reward uploader for successful verification (>80% yes votes)
@@ -78,7 +105,7 @@ setInterval(async () => {
             await submission.deleteOne()
         }
     }
-}, 60000)
+}, CLEANUP_INTERVAL)
 
 app.post("/submission", async (req, res) => {
     try {
@@ -110,11 +137,15 @@ app.post("/verify", async (req, res) => {
             return res.status(404).json({ error: "Submission not found" })
         }
 
-        if (submission.voters.includes(verifier)) {
+        if (submission.voters.some(v => v.address === verifier)) {
             return res.status(400).json({ error: "Already voted" })
         }
 
-        submission.voters.push(verifier)
+        submission.voters.push({
+            address: verifier,
+            vote: vote
+        })
+        
         if (vote === 'yes') {
             submission.votes.yes++
         } else {
@@ -137,6 +168,49 @@ app.get("/submissions", async (req, res) => {
     } catch (error) {
         console.error("Error fetching submissions:", error)
         res.status(500).json({error: "Failed to fetch submissions"})
+    }
+})
+
+const downloadFile = async (cid) => {
+  try {
+    const response = await fetch(`https://gateway.lighthouse.storage/ipfs/${cid}`);
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to download the file:", error);
+    throw error;
+  }
+};
+
+app.get("/verifiedInfo", async (req, res) => {
+    try {
+        const verifiedInfos = await VerifiedInfo.find()
+        const combinedData = []
+
+        for (const info of verifiedInfos) {
+            try {
+                // Download and parse JSON directly from Lighthouse gateway
+                const submissionData = await downloadFile(info.lighthouseHash)
+                
+                combinedData.push({
+                    ...submissionData,
+                    verifiedAt: info.verifiedAt,
+                    lighthouseHash: info.lighthouseHash
+                })
+            } catch (error) {
+                console.error(`Error downloading hash ${info.lighthouseHash}:`, error)
+                // Continue with next hash even if one fails
+                continue
+            }
+        }
+
+        res.json(combinedData)
+    } catch (error) {
+        console.error("Error fetching verified info:", error)
+        res.status(500).json({error: "Failed to fetch verified information"})
     }
 })
 

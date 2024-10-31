@@ -29,18 +29,26 @@ export function HomePage() {
               </p>
             </BoxReveal>
             <BoxReveal boxColor={"#5046e6"} duration={0.5}>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link
+                    href="/upload"
+                    className="bg-zinc-800 text-white px-6 py-3 rounded-lg hover:bg-zinc-700 transition-colors duration-200 text-center"
+                  >
+                    Upload Information
+                  </Link>
+                  <Link
+                    href="/verify" 
+                    className="bg-zinc-800 text-white px-6 py-3 rounded-lg hover:bg-zinc-700 transition-colors duration-200 text-center"
+                  >
+                    Verify Information
+                  </Link>
+                </div>
                 <Link
-                  href="/upload"
-                  className="bg-zinc-800 text-white px-6 py-3 rounded-lg hover:bg-zinc-700 transition-colors duration-200 text-center"
+                  href="/verifiedInfo"
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-center"
                 >
-                  Upload Information
-                </Link>
-                <Link
-                  href="/verify" 
-                  className="bg-zinc-800 text-white px-6 py-3 rounded-lg hover:bg-zinc-700 transition-colors duration-200 text-center"
-                >
-                  Verify Information
+                  Verified Info
                 </Link>
               </div>
             </BoxReveal>
