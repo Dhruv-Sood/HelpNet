@@ -34,7 +34,7 @@ export default function Page() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch('http://localhost:3001/submission', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/submission`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

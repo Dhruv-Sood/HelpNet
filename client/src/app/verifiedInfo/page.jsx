@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from 'react'
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+
 const Page = () => {
   const [verifiedInfo, setVerifiedInfo] = useState([])
 
   useEffect(() => {
     const fetchVerifiedInfo = async () => {
       try {
-        const response = await fetch('http://localhost:3001/verifiedInfo')
+        const response = await fetch(`${BACKEND_URL}/verifiedInfo`)
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }

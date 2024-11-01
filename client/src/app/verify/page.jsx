@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+
 export default function Page() {
     const [verifications, setVerifications] = useState([])
     const [verificationStatus, setVerificationStatus] = useState({})
@@ -11,7 +13,7 @@ export default function Page() {
     useEffect(() => {
         const fetchSubmissions = async () => {
             try {
-                const response = await fetch('http://localhost:3001/submissions')
+                const response = await fetch(`${BACKEND_URL}/submissions`)
                 if (!response.ok) {
                     throw new Error('Network response was not ok')
                 }
@@ -27,7 +29,7 @@ export default function Page() {
 
     const handleVerify = async (submissionId, vote) => {
         try {
-            const response = await fetch('http://localhost:3001/verify', {
+            const response = await fetch(`${BACKEND_URL}/verify`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,7 +52,7 @@ export default function Page() {
             }))
 
             // Refresh submissions after voting
-            const updatedResponse = await fetch('http://localhost:3001/submissions')
+            const updatedResponse = await fetch(`${BACKEND_URL}/submissions`)
             const updatedData = await updatedResponse.json()
             setVerifications(updatedData)
 
