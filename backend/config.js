@@ -1,5 +1,5 @@
-const CLEANUP_INTERVAL = 60000;
-const SUBMISSION_EXPIRY = 60 * 60 * 1000;
+const CLEANUP_INTERVAL = 1 * 60000; // 1 minute
+const SUBMISSION_EXPIRY = 1 * 60 * 60 * 1000; // 1 hour
 const VERIFICATION_THRESHOLD = 80;
 
 module.exports = {

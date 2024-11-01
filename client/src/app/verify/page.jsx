@@ -19,7 +19,9 @@ export default function Page() {
                     throw new Error('Network response was not ok')
                 }
                 const data = await response.json()
-                setVerifications(data)
+                // Sort submissions by createdAt in descending order
+                const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                setVerifications(sortedData)
             } catch (error) {
                 console.error('Error fetching submissions:', error)
             } finally {
@@ -57,7 +59,9 @@ export default function Page() {
             // Refresh submissions after voting
             const updatedResponse = await fetch(`${BACKEND_URL}/submissions`)
             const updatedData = await updatedResponse.json()
-            setVerifications(updatedData)
+            // Sort updated submissions by createdAt in descending order
+            const sortedData = updatedData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            setVerifications(sortedData)
 
         } catch (error) {
             console.error('Error verifying submission:', error)

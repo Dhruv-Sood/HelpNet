@@ -16,7 +16,9 @@ const Page = () => {
           throw new Error('Network response was not ok')
         }
         const data = await response.json()
-        setVerifiedInfo(data)
+        // Sort by verifiedAt in descending order (most recent first)
+        const sortedData = data.sort((a, b) => new Date(b.verifiedAt) - new Date(a.verifiedAt))
+        setVerifiedInfo(sortedData)
       } catch (error) {
         console.error('Error fetching verified info:', error)
       } finally {
@@ -59,7 +61,9 @@ const Page = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <span className="text-white font-medium">👤 Sender:</span>
-                <span className="font-mono">{info.sender}</span>
+                <span className="font-mono truncate" title={info.sender}>
+                  {info.sender.slice(0, 6)}...{info.sender.slice(-4)}
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <span className="text-white font-medium">✅ Verified:</span>
