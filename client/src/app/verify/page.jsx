@@ -8,6 +8,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 export default function Page() {
     const [verifications, setVerifications] = useState([])
     const [verificationStatus, setVerificationStatus] = useState({})
+    const [isLoading, setIsLoading] = useState(true)
     const { address } = useAccount()
 
     useEffect(() => {
@@ -21,6 +22,8 @@ export default function Page() {
                 setVerifications(data)
             } catch (error) {
                 console.error('Error fetching submissions:', error)
+            } finally {
+                setIsLoading(false)
             }
         }
 
@@ -59,6 +62,33 @@ export default function Page() {
         } catch (error) {
             console.error('Error verifying submission:', error)
         }
+    }
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-green-500"></div>
+            </div>
+        )
+    }
+
+    if (verifications.length === 0) {
+        return (
+            <div className="min-h-screen bg-gradient-to-b from-zinc-900 to-black py-12">
+                <div className="container mx-auto px-4 text-center">
+                    <h1 className="text-5xl font-bold mb-12 text-white text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                        Verify Disaster Relief Information
+                    </h1>
+                    <div className="bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50 p-8 rounded-2xl text-white max-w-2xl mx-auto">
+                        <svg className="w-20 h-20 mx-auto mb-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h2 className="text-2xl font-semibold mb-4">No Submissions to Verify</h2>
+                        <p className="text-gray-400">There are currently no disaster relief information submissions that need verification. Please check back later.</p>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     return (

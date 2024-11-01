@@ -6,6 +6,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 const Page = () => {
   const [verifiedInfo, setVerifiedInfo] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchVerifiedInfo = async () => {
@@ -18,11 +19,21 @@ const Page = () => {
         setVerifiedInfo(data)
       } catch (error) {
         console.error('Error fetching verified info:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
     fetchVerifiedInfo()
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-green-500"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
