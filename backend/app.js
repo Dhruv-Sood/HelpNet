@@ -16,7 +16,13 @@ const {
 } = require("./utils");
 
 
-app.use(cors())
+// Configure CORS with specific options
+app.use(cors({
+    origin: '*', // Allow all origins - you may want to restrict this in production
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+    credentials: true // Allow credentials
+}))
 app.use(express.json())
 
 // Connect to MongoDB
