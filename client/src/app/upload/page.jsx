@@ -73,6 +73,11 @@ export default function Page() {
             setTimeout(() => {
                 setSubmitStatus('')
             }, 5000)
+        } finally {
+            // Ensure submitStatus is cleared even if there's an uncaught error
+            if (submitStatus === 'submitting') {
+                setSubmitStatus('')
+            }
         }
     }
 

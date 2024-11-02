@@ -96,7 +96,7 @@ export function HomePage() {
           <div className="space-y-8 text-gray-300">
             <div className="bg-gradient-to-r from-zinc-900/90 to-zinc-900/50 p-8 rounded-xl border border-zinc-800/50 backdrop-blur-sm">
               <p className="text-lg leading-relaxed">
-                On uploading and verifying, users get rewarded via cryptocurrency. If the uploader receives about 80% positive verifications within 5 hours, they earn the reward.
+                On uploading and verifying, users get rewarded via cryptocurrency. If the uploader receives about 80% positive verifications within 1 hour, they earn the reward.
               </p>
             </div>
             <div className="bg-gradient-to-r from-zinc-900/90 to-zinc-900/50 p-8 rounded-xl border border-zinc-800/50 backdrop-blur-sm">
