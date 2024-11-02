@@ -78,15 +78,6 @@ The smart contract allows users to mint HNT tokens. Below are the steps to deplo
 2. Ensure that the contract is deployed on the Polygon zkEVM Testnet.
 3. Interact with the contract through the frontend.
 
-### Example of Minting HNT Tokens
-
-```javascript
-const mintTokens = async (recipientAddress, amount) => {
-    const tx = await contract.mint(recipientAddress, amount);
-    await tx.wait();
-    console.log(`Minted ${amount} HNT to ${recipientAddress}`);
-};
-```
 
 ## Contributing
 
