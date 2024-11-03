@@ -10,7 +10,7 @@ export function HomePage() {
       <div className='container mx-auto px-4 min-h-screen flex items-center'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
           <div className='order-2 lg:order-1'>
-            <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text leading-tight">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text leading-tight">
               Welcome to HelpNet (Disaster Relief)
             </h1>
             <p className="text-2xl mb-8 text-gray-200">
@@ -45,7 +45,7 @@ export function HomePage() {
             </div>
           </div>
           
-          <div className='order-1 lg:order-2 h-full flex justify-center items-center'>
+          <div className='order-1 lg:order-2 h-full hidden lg:flex justify-center items-center'>
             <Earth />
           </div>
         </div>
