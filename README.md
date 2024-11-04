@@ -1,8 +1,11 @@
 ---
-
 # HelpNet
+[Watch the overview video](https://www.youtube.com/watch?v=xfk_6xLy2jU)
+
+[![Watch the overview video](https://img.youtube.com/vi/xfk_6xLy2jU/0.jpg)](https://www.youtube.com/watch?v=xfk_6xLy2jU)
 
 HelpNet is a decentralized platform built on Polygon zkEVM that allows users to share and verify disaster relief information. Users can earn crypto rewards by contributing valuable information and participating in the verification process.
+
 
 ## Table of Contents
 
